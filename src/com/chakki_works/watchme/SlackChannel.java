@@ -1,8 +1,6 @@
 package com.chakki_works.watchme;
 
-/**
- * Created by Anael CHARDAN "anael.chardan@gmail.com" on 01/16/2016
- */
+
 public class SlackChannel {
     protected String id;
     protected String token;

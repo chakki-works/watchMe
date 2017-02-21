@@ -1,8 +1,8 @@
 <idea-plugin version="2">
-  <id>com.your.company.unique.plugin.id</id>
-  <name>Plugin display name here</name>
+  <id>com.chakki_works.watchme</id>
+  <name>watchMe</name>
   <version>1.0</version>
-  <vendor email="support@yourcompany.com" url="http://www.yourcompany.com">YourCompany</vendor>
+  <vendor email="chakki.works@gmail.com" url="http://chakki-works.com">chakki</vendor>
 
   <description><![CDATA[
       Enter short description for your plugin here.<br>
@@ -27,14 +27,21 @@
   <extensions defaultExtensionNs="com.intellij">
     <!-- Add your extensions here -->
     <consoleInputFilterProvider implementation="ConsoleErrorInputFilterProvider" />
+    <applicationService serviceInterface="com.chakki_works.watchme.SlackStorage"
+                        serviceImplementation="com.chakki_works.watchme.SlackStorage"/>
   </extensions>
 
   <actions>
     <!-- Add your actions here -->
+    <group id="SlackSettings" class="com.chakki_works.watchme.SlackSettings" popup="true" text="Slack Settings">
+      <add-to-group group-id="ToolsMenu" anchor="first"/>
+    </group>
+
     <action id="StartPluginAction" class="StartPluginAction" text="StartWatch">
       <add-to-group group-id="ToolsMenu" anchor="first"/>
       <keyboard-shortcut keymap="$default" first-keystroke="shift MINUS"/>
     </action>
+
   </actions>
 
 </idea-plugin>
