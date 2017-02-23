@@ -9,6 +9,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Collections;
 import java.util.List;
 
+import com.chakki_works.watchme.SlackPost;
+
 public class ConsoleErrorInputFilterProvider implements ConsoleInputFilterProvider {
     @NotNull
     @Override
