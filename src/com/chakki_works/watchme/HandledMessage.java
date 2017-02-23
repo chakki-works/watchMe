@@ -1,7 +1,12 @@
 package com.chakki_works.watchme;
 
+import java.util.Map;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.stream.Stream;
 
 
 public class HandledMessage {
@@ -18,22 +23,32 @@ public class HandledMessage {
         this.error = error;
     }
 
-    public static HandledMessage create(String rawMessage){
+    public static HandledMessage create(String rawMessage, Map<String, String> fileCache){
+        HandledMessage hm = null;
         Pattern fileAndLinePattern = Pattern.compile("\\([A-Z][a-z]+\\.[a-z]+:\\d+\\)");
         Matcher m = fileAndLinePattern.matcher(rawMessage);
-        String[] fileAndLine = new String[0];
+        String file = "";
+        int line = -1;
+        String code = "";
 
         while(m.find()) {
-            System.out.println(m.group());
-            fileAndLine = m.group().replace("(", "").replace(")", "").split(":");
-            break; // use first file name
+            //System.out.println(m.group());
+            String[] fileAndLine = m.group().replace("(", "").replace(")", "").split(":");
+            if (fileAndLine.length == 2 && fileCache.containsKey(fileAndLine[0])) {
+                file = fileAndLine[0];
+                line = Integer.parseInt(fileAndLine[1]);
+                break;
+            }
         }
 
-        HandledMessage hm = null;
-        if(fileAndLine.length == 2){
-            String file = fileAndLine[0];
-            int line = Integer.parseInt(fileAndLine[1]);
-            hm = new HandledMessage(file, line, "hogehoge", rawMessage);
+        if(line > -1){
+            String path = fileCache.get(file);
+            try (Stream<String> stream = Files.lines(Paths.get(path))) {
+                code = stream.skip(line -1).findFirst().get();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            hm = new HandledMessage(file, line, code, rawMessage);
         }
 
         return hm;
@@ -41,7 +56,7 @@ public class HandledMessage {
 
     public String toString(){
         String s = String.format(
-                "At %s(%d) = %s. \n %s",
+                "At %s(%d). \n code: \t%s \n error: \t %s",
                 this.sourceFile, this.sourceLine, this.sourceCode, this.error
         );
         return s;
