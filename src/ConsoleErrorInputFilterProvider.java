@@ -15,25 +15,7 @@ public class ConsoleErrorInputFilterProvider implements ConsoleInputFilterProvid
     @NotNull
     @Override
     public InputFilter[] getDefaultFilters(@NotNull Project project) {
-        return new InputFilter[]{new InputFilter() {
-            @Nullable
-            @Override
-            public List<Pair<String, ConsoleViewContentType>> applyFilter(String text, ConsoleViewContentType outputType) {
-                //System.out.print(text);
-                if (outputType.equals(ConsoleViewContentType.ERROR_OUTPUT)) {
-                    System.out.print(text);
-                }
-                if (outputType.equals(ConsoleViewContentType.SYSTEM_OUTPUT) && !text.contains("exit code")) {
-                    return Collections.emptyList();
-                }
-                //if (text.startsWith(PyRunCythonExtensionsFilter.WARNING_MESSAGE_BEGIN)) {
-                //    return Collections.emptyList();
-                //}
-                if (text.startsWith("pydev debugger")) {
-                    return Collections.emptyList();
-                }
-                return Collections.singletonList(Pair.create(text, outputType));
-            }
-        }};
+        InputFilter consoleErrorFilter = new ConsoleErrorInputFilter(project);
+        return new InputFilter[]{consoleErrorFilter};
     }
 }
