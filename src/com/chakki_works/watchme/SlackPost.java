@@ -24,7 +24,7 @@ public class SlackPost {
     private SlackChannel channel;
 
     public SlackPost(SlackChannel channel) {
-        super(channel.getId());
+        //super(channel.getId());
         this.channel = channel;
     }
 
