@@ -26,7 +26,8 @@ public class HandledMessage {
     public static HandledMessage create(String rawMessage, Map<String, String> fileCache){
         HandledMessage hm = null;
         Pattern fileAndLinePattern = Pattern.compile("\\([A-Z][a-z]+\\.[a-z]+:\\d+\\)");
-        Matcher m = fileAndLinePattern.matcher(rawMessage);
+        String spaceIndented = rawMessage.replace("\t", "  ");
+        Matcher m = fileAndLinePattern.matcher(spaceIndented);
         String file = "";
         int line = -1;
         String code = "";
@@ -55,10 +56,11 @@ public class HandledMessage {
     }
 
     public String toString(){
-        String s = String.format(
-                "At %s(%d). \n code: \t%s \n error: \t %s",
-                this.sourceFile, this.sourceLine, this.sourceCode, this.error
-        );
-        return s;
+        String msg = "";
+        msg += String.format("%s(%d) \n", this.sourceFile, this.sourceLine);
+        msg += String.format("`%s`\n", this.sourceCode);
+        msg += String.format("Error \n ```%s```", this.error);
+
+        return msg;
     }
 }
