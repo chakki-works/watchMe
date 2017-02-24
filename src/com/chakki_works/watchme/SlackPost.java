@@ -13,7 +13,7 @@ import java.net.URLEncoder;
 
 public class SlackPost {
 
-    private SlackStorage storage = SlackStorage.getInstance();
+    //private SlackStorage storage = SlackStorage.getInstance();
 
     private Project project;
     private Editor editor;
@@ -29,7 +29,7 @@ public class SlackPost {
     }
 
 
-    private void pushMessage(String message, String details) throws IOException {
+    public void pushMessage(String message, String details) throws IOException {
         String input = "payload=" + URLEncoder.encode(channel.getPayloadMessage(details, message), "UTF-8");
 
         try {
@@ -45,10 +45,10 @@ public class SlackPost {
             wr.close ();
 
             if (conn.getResponseCode() == 200 && readInputStreamToString(conn).equals("ok")) {
-                Messages.showMessageDialog(project, "Message Sent.", "Information", SlackStorage.getSlackIcon());
+                //Messages.showMessageDialog(project, "Message Sent.", "Information", SlackStorage.getSlackIcon());
             }
             else {
-                Messages.showMessageDialog(project, "Message not sent, check your configuration.", "Error", Messages.getErrorIcon());
+                //Messages.showMessageDialog(project, "Message not sent, check your configuration.", "Error", Messages.getErrorIcon());
             }
 
         } catch (MalformedURLException e) {
