@@ -3,6 +3,8 @@ import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 import com.chakki_works.watchme.HandledMessage;
 
+import java.util.HashMap;
+
 
 public class HandledMessageTest extends TestCase{
 
@@ -16,7 +18,9 @@ public class HandledMessageTest extends TestCase{
                 "\tat java.lang.reflect.Method.invoke(Method.java:497)\n" +
                 "\tat com.intellij.rt.execution.application.AppMain.main(AppMain.java:147)";
 
-        HandledMessage hm = HandledMessage.create(sample);
+        HashMap<String, String> fileCache = new HashMap<String, String>();
+        fileCache.put("Main.java", System.getProperty("user.dir") + "/README.md");
+        HandledMessage hm = HandledMessage.create(sample, fileCache);
         System.out.println(hm);
 
     }
