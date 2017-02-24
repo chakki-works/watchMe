@@ -13,13 +13,13 @@ public class HandledMessage {
 
     private String sourceFile = "";
     private int sourceLine = 0;
-    private String sourceCode = "";
+    private String[] sourceCodes = new String[0];
     private String error = "";
 
-    public HandledMessage(String sourceFile, int sourceLine, String sourceCode, String error){
+    public HandledMessage(String sourceFile, int sourceLine, String[] sourceCodes, String error){
         this.sourceFile = sourceFile;
         this.sourceLine = sourceLine;
-        this.sourceCode = sourceCode;
+        this.sourceCodes = sourceCodes;
         this.error = error;
     }
 
@@ -30,7 +30,7 @@ public class HandledMessage {
         Matcher m = fileAndLinePattern.matcher(spaceIndented);
         String file = "";
         int line = -1;
-        String code = "";
+        String[] codes = new String[0];
 
         while(m.find()) {
             //System.out.println(m.group());
@@ -45,11 +45,11 @@ public class HandledMessage {
         if(line > -1){
             String path = fileCache.get(file);
             try (Stream<String> stream = Files.lines(Paths.get(path))) {
-                code = stream.skip(line -1).findFirst().get();
+                codes = stream.skip(line -3).limit(5).toArray(size -> new String[size]);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            hm = new HandledMessage(file, line, code, rawMessage);
+            hm = new HandledMessage(file, line, codes, rawMessage);
         }
 
         return hm;
@@ -58,7 +58,13 @@ public class HandledMessage {
     public String toString(){
         String msg = "";
         msg += String.format("%s(%d) \n", this.sourceFile, this.sourceLine);
-        msg += String.format("`%s`\n", this.sourceCode);
+        for(int i = 0; i < this.sourceCodes.length; i++){
+            if(i == i / 2 + 1){
+                msg += String.format("> `%s`\n", this.sourceCodes[i]);
+            }else{
+                msg += String.format("> %s\n", this.sourceCodes[i]);
+            }
+        }
         msg += String.format("Error \n ```%s```", this.error);
 
         return msg;
