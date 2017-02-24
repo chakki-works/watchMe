@@ -15,10 +15,11 @@ By notifying your error to your Slack team automatically, your team members can 
 4. Open your own project.
 5. If an error occurred on execution, watchMe send the error to your Slack team automatically.
 
-## Licence
+## License
 
 [MIT](https://github.com/chakki-works/watchMe/blob/master/LICENSE)
 
 ## Contributors
 
-[Hironsan](https://github.com/Hironsan)
+* [Hironsan](https://github.com/Hironsan)
+* [Takahiro Kubo](https://github.com/icoxfog417)
