@@ -24,7 +24,7 @@ public class SlackStorage implements PersistentStateComponent<SlackStorage> {
     public Map<String, String> icons  = new HashMap<String, String>();
     public Map<String, String> channels  = new HashMap<String, String>();
 
-    protected List<SlackChannel> channelsRegistry = new ArrayList<SlackChannel>();
+    public List<SlackChannel> channelsRegistry = new ArrayList<SlackChannel>();
 
     @Override
     public SlackStorage getState() {

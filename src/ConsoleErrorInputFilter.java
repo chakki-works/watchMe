@@ -8,7 +8,9 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.roots.ProjectRootManager;
 import com.chakki_works.watchme.ProjectFileIterator;
 import com.chakki_works.watchme.HandledMessage;
+import com.chakki_works.watchme.*;
 
+import java.io.IOException;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
@@ -40,6 +42,16 @@ public class ConsoleErrorInputFilter implements InputFilter {
             if(hm != null) {
                 System.out.println(hm);
                 this.errorStack = "";
+                for (SlackChannel slackChannel: SlackStorage.getInstance().channelsRegistry) {
+                    SlackPost post = new SlackPost(slackChannel);
+                    String message = hm.toString();
+                    String detail = "Hironsan is in trouble with the following error.";
+                    try {
+                        post.pushMessage(message, detail);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         }
         if (outputType.equals(ConsoleViewContentType.SYSTEM_OUTPUT) && !text.contains("exit code")) {

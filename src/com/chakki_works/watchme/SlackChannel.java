@@ -24,7 +24,7 @@ public class SlackChannel {
         String payload = "{" +
                 "\"attachments\" : [{" +
                 "\"title\" : \"" + title + "\"," +
-                "\"text\" : \"```" + message + "```\"," +
+                "\"text\" : \"" + message + "\"," +
                 "\"mrkdwn_in\" : [\"title\", \"text\"]" +
                 "}]," +
                 "\"username\" : \"" + this.getSenderName() + "\"," +
