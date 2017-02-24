@@ -45,7 +45,8 @@ public class HandledMessage {
         if(line > -1){
             String path = fileCache.get(file);
             try (Stream<String> stream = Files.lines(Paths.get(path))) {
-                codes = stream.skip(line -3).limit(5).toArray(size -> new String[size]);
+                int skips = line > 3 ? line - 3 : 0; // take before 2 and after 2 = total 5 lines of code.
+                codes = stream.skip(skips).limit(5).toArray(size -> new String[size]);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -59,8 +60,8 @@ public class HandledMessage {
         String msg = "";
         msg += String.format("%s(%d) \n", this.sourceFile, this.sourceLine);
         for(int i = 0; i < this.sourceCodes.length; i++){
-            if(i == i / 2 + 1){
-                msg += String.format("> `%s`\n", this.sourceCodes[i]);
+            if(i == this.sourceCodes.length / 2){
+                msg += String.format("> `%s`\n", this.sourceCodes[i]); // center code
             }else{
                 msg += String.format("> %s\n", this.sourceCodes[i]);
             }
