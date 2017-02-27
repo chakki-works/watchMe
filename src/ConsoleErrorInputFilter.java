@@ -20,13 +20,12 @@ import java.util.Collections;
 public class ConsoleErrorInputFilter implements InputFilter {
 
     private final Project project;
-    private final Map<String, String> fileCache;
+    private ProjectFileContent projectContent;
     private ProjectRootManager projectRootManager;
     private String errorStack = "";
 
     public ConsoleErrorInputFilter(final Project project) {
         this.project = project;
-        this.fileCache = new HashMap<String, String>();
         projectRootManager = ProjectRootManager.getInstance(project);
         errorStack = "";
         createFileCache();
@@ -38,10 +37,11 @@ public class ConsoleErrorInputFilter implements InputFilter {
 
         if (outputType.equals(ConsoleViewContentType.ERROR_OUTPUT)) {
             this.errorStack += text;
-            HandledMessage hm = HandledMessage.create(this.errorStack, this.fileCache);
+        }
+        if (outputType.equals(ConsoleViewContentType.SYSTEM_OUTPUT) && text.trim().startsWith("Process finished with exit code")) {
+            HandledMessage hm = HandledMessage.create(this.errorStack, this.projectContent);
             if(hm != null) {
                 System.out.println(hm);
-                this.errorStack = "";
                 for (SlackChannel slackChannel: SlackStorage.getInstance().channelsRegistry) {
                     SlackPost post = new SlackPost(slackChannel);
                     String message = hm.toString();
@@ -53,28 +53,32 @@ public class ConsoleErrorInputFilter implements InputFilter {
                     }
                 }
             }
-        }
-        if (outputType.equals(ConsoleViewContentType.SYSTEM_OUTPUT) && !text.contains("exit code")) {
-            return Collections.emptyList();
-        }
-        //if (text.startsWith(PyRunCythonExtensionsFilter.WARNING_MESSAGE_BEGIN)) {
-        //    return Collections.emptyList();
-        //}
-        if (text.startsWith("pydev debugger")) {
-            return Collections.emptyList();
+            this.errorStack = "";
         }
         return Collections.singletonList(Pair.create(text, outputType));
     }
 
     private void createFileCache() {
         //VirtualFile[] projectFiles = projectRootManager.getContentRoots();
-        VirtualFile[] vRoots = projectRootManager.getContentSourceRoots();
         final List<String> roots = new ArrayList<String>();
-        for (final VirtualFile root : vRoots) {
-            roots.add(root.getPath());
+        VirtualFile[] vRoots;
+        boolean isPython = projectRootManager.getProjectSdkName().toLowerCase().startsWith("python");
+
+        if(isPython) {
+            vRoots = projectRootManager.getContentRoots();
+            String root = vRoots[0].getPath(); // only one root
+            roots.add(root + "/.");
+            roots.add(root + "/venv"); //heuristic!
+            roots.add(root + "/env");
+        }else{
+            vRoots = projectRootManager.getContentSourceRoots();
+            for (final VirtualFile root : vRoots) {
+                roots.add(root.getPath());
+            }
         }
 
-        projectRootManager.getFileIndex().iterateContent(new ProjectFileIterator(this.fileCache, roots));
+        projectContent = new ProjectFileContent(roots, isPython);
+        projectRootManager.getFileIndex().iterateContent(new ProjectFileIterator(projectContent));
 
     }
 

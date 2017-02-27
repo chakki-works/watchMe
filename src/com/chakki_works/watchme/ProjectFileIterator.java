@@ -2,41 +2,40 @@ package com.chakki_works.watchme;
 
 import com.intellij.openapi.roots.ContentIterator;
 import com.intellij.openapi.vfs.VirtualFile;
+import com.chakki_works.watchme.ProjectFileContent;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import com.chakki_works.watchme.ProjectFileContent;
+
 
 public class ProjectFileIterator implements ContentIterator {
 
-    private final Map<String, String> fileCache;
-    private final List<String> roots;
+    private final ProjectFileContent fileContent;
 
-    public ProjectFileIterator(final Map<String, String> fileCache, List<String> roots){
-        this.fileCache = fileCache;
-        this.roots = roots;
+    public ProjectFileIterator(ProjectFileContent content){
+        this.fileContent = content;
     }
 
-    private boolean matchRoot(String path){
-        boolean match = false;
-        for(String r : this.roots){
-            if(path.startsWith(r)){
-                match = true;
-                break;
-            }
-        }
-        return match;
+    public ProjectFileContent getContent(){
+        return this.fileContent;
     }
 
     @Override
     public boolean processFile(final VirtualFile file) {
-        if (!file.isDirectory()) {
-            final String fileName = file.getName();
-            final String filePath = file.getPath();
+        final String fileName = file.getName();
+        final String filePath = file.getPath();
+        boolean isTarget = false;
+        if(fileContent.isPython()){
+            isTarget = !file.isDirectory() && !fileContent.contains(filePath);
+        }else{
+            isTarget = !file.isDirectory() && fileContent.contains(filePath);
+        }
 
-            if(matchRoot(filePath) && !fileCache.containsKey(fileName)){
-                fileCache.put(fileName, filePath);
-                //System.out.println("include: " + fileName);
-            }
+        if (isTarget && !this.fileContent.hasFile(fileName)) {
+            fileContent.get().put(fileName, filePath);
+            //System.out.println("include: " + fileName);
         }
 
         return true;
