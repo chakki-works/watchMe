@@ -8,8 +8,9 @@ public class SlackChannel {
     protected String senderIcon = "https://farm3.staticflickr.com/2291/33013444521_8e555dd637_o_d.png";
     protected String channelName = "";
 
-    public SlackChannel(String token, String channelName) {
+    public SlackChannel(String token, String id, String channelName) {
         this.token = token;
+        this.id = id;
         this.channelName = channelName;
     }
 

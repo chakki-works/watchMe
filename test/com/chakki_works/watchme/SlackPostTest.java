@@ -28,7 +28,7 @@ public class SlackPostTest {
 
     @Test
     public void testPostMessageShortVer() {
-        SlackChannel channel = new SlackChannel(this.token, this.channelName);
+        SlackChannel channel = new SlackChannel(this.token, this.id ,this.channelName);
         SlackPost post = new SlackPost(channel);
         String message = "message string";
         String detail = "detail string";
