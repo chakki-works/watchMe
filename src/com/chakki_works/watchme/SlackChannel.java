@@ -5,7 +5,7 @@ public class SlackChannel {
     protected String id;
     protected String token;
     protected String senderName = "watchMe";
-    protected String senderIcon = ":thunder_cloud_and_rain:";
+    protected String senderIcon = "https://farm3.staticflickr.com/2291/33013444521_8e555dd637_o_d.png";
     protected String channelName = "";
 
     public SlackChannel(String token, String id, String senderName, String senderIcon, String channelName) {
@@ -28,7 +28,7 @@ public class SlackChannel {
                 "\"mrkdwn_in\" : [\"title\", \"text\"]" +
                 "}]," +
                 "\"username\" : \"" + this.getSenderName() + "\"," +
-                "\"icon_emoji\" : \"" + this.getSenderIcon() + "\"";
+                "\"icon_url\" : \"" + this.getSenderIcon() + "\"";
         String channel = this.getChannelName();
         if (channel != null && !channel.isEmpty()) {
             payload += ",\"channel\" : \"" + channel + "\"";
@@ -75,7 +75,7 @@ public class SlackChannel {
     }
 
     public static String getDefaultSenderIcon() {
-        return ":thunder_cloud_and_rain:";
+        return "https://farm3.staticflickr.com/2291/33013444521_8e555dd637_o_d.png";
     }
 
     public static String getSettingsDescription() {

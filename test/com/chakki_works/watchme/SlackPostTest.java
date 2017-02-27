@@ -9,8 +9,8 @@ public class SlackPostTest {
 
     private String token = "SLACK-API-KEY";
     private String id = "";
-    private String senderName = "SlackStorm";
-    private String senderIcon = ":thunder_cloud_and_rain:";
+    private String senderName = "watchMe";
+    private String senderIcon = "https://farm3.staticflickr.com/2291/33013444521_8e555dd637_o_d.png";
     private String channelName = "";
     private SlackChannel channel;
 
