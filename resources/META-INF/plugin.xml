@@ -32,11 +32,6 @@
     <group id="SlackSettings" class="com.chakki_works.watchme.SlackSettings" popup="true" text="Slack Settings">
       <add-to-group group-id="ToolsMenu" anchor="first"/>
     </group>
-
-    <action id="StartPluginAction" class="StartPluginAction" text="StartWatch">
-      <add-to-group group-id="ToolsMenu" anchor="first"/>
-      <keyboard-shortcut keymap="$default" first-keystroke="shift MINUS"/>
-    </action>
   </actions>
 
 </idea-plugin>
