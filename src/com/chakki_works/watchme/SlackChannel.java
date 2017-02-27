@@ -4,7 +4,7 @@ package com.chakki_works.watchme;
 public class SlackChannel {
     protected String id;
     protected String token;
-    protected String senderName = "SlackStorm";
+    protected String senderName = "watchMe";
     protected String senderIcon = ":thunder_cloud_and_rain:";
     protected String channelName = "";
 
@@ -63,7 +63,7 @@ public class SlackChannel {
     }
 
     public static String getSenderNameDefaultValue() {
-        return "SlackStorm";
+        return "watchMe";
     }
 
     public String getSenderIcon() {
