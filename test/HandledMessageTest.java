@@ -1,5 +1,6 @@
 import junit.framework.TestCase;
 import com.chakki_works.watchme.HandledMessage;
+import com.chakki_works.watchme.ProjectFileContent;
 import com.chakki_works.watchme.SlackPost;
 import com.chakki_works.watchme.SlackChannel;
 
@@ -9,7 +10,23 @@ import java.util.HashMap;
 
 public class HandledMessageTest extends TestCase{
 
-    public void testMessageParse(){
+    public void testMessageParsePython(){
+        String sample = "";
+        sample += "Traceback (most recent call last):\n" +
+                "  File \"/Users/smap6/IdeaProjects/watchMePythonTestProject/main.py\", line 12, in <module>\n" +
+                "    main()\n" +
+                "  File \"/Users/smap6/IdeaProjects/watchMePythonTestProject/main.py\", line 7, in main\n" +
+                "    with open(path, encoding=\"utf-8\") as f:\n" +
+                "TypeError: 'encoding' is an invalid keyword argument for this function";
+
+        HashMap<String, String> fileCache = new HashMap<String, String>();
+        fileCache.put("main.py", System.getProperty("user.dir") + "/README.md");
+        HandledMessage hm = HandledMessage.create(sample, ProjectFileContent.createFromContent(fileCache, true));
+        System.out.println(hm);
+
+    }
+
+    public void testMessageParseJava(){
         String sample = "";
         sample += "Exception in thread \"main\" java.lang.Exception: Test Exception\n" +
                 "\tat com.company.Main.main(Main.java:8)\n" +
@@ -21,7 +38,7 @@ public class HandledMessageTest extends TestCase{
 
         HashMap<String, String> fileCache = new HashMap<String, String>();
         fileCache.put("Main.java", System.getProperty("user.dir") + "/README.md");
-        HandledMessage hm = HandledMessage.create(sample, fileCache);
+        HandledMessage hm = HandledMessage.create(sample, ProjectFileContent.createFromContent(fileCache, false));
         System.out.println(hm);
 
     }
@@ -38,7 +55,7 @@ public class HandledMessageTest extends TestCase{
 
         HashMap<String, String> fileCache = new HashMap<String, String>();
         fileCache.put("Main.java", System.getProperty("user.dir") + "/README.md");
-        HandledMessage hm = HandledMessage.create(sample, fileCache);
+        HandledMessage hm = HandledMessage.create(sample, ProjectFileContent.createFromContent(fileCache, false));
         System.out.println(hm);
 
         String token = "SLACK-API-TOKEN";

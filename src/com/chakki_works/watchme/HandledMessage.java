@@ -1,5 +1,6 @@
 package com.chakki_works.watchme;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
@@ -23,27 +24,61 @@ public class HandledMessage {
         this.error = error;
     }
 
-    public static HandledMessage create(String rawMessage, Map<String, String> fileCache){
-        HandledMessage hm = null;
+    private static Map<String, Integer> JavaParser(String message){
         Pattern fileAndLinePattern = Pattern.compile("\\([A-Z][a-z]+\\.[a-z]+:\\d+\\)");
+        Matcher m = fileAndLinePattern.matcher(message);
+        HashMap<String, Integer> fileLine = new HashMap<String, Integer>();
+        while(m.find()) {
+            String[] fileAndLine = m.group().replace("(", "").replace(")", "").split(":");
+            if (fileAndLine.length == 2) {
+                String file = fileAndLine[0];
+                int line = Integer.parseInt(fileAndLine[1]);
+                fileLine.put(file, line);
+            }
+        }
+        return fileLine;
+    }
+
+    private static Map<String, Integer> PythonParser(String message){
+        //"/Users/smap6/IdeaProjects/watchMePythonTestProject/main.py", line 12, in <module>
+        Pattern fileAndLinePattern = Pattern.compile("/[A-Za-z]+\\.py\", line \\d+");
+        Matcher m = fileAndLinePattern.matcher(message);
+        HashMap<String, Integer> fileLine = new HashMap<String, Integer>();
+        while(m.find()) {
+            String[] fileAndLine = m.group().replace("/", "").replace("\", line ", ",").split(",");
+            if (fileAndLine.length == 2) {
+                String file = fileAndLine[0];
+                int line = Integer.parseInt(fileAndLine[1]);
+                fileLine.put(file, line);
+            }
+        }
+        return fileLine;
+    }
+
+    public static HandledMessage create(String rawMessage, ProjectFileContent content){
+        HandledMessage hm = null;
         String spaceIndented = rawMessage.replace("\t", "  ");
-        Matcher m = fileAndLinePattern.matcher(spaceIndented);
         String file = "";
         int line = -1;
         String[] codes = new String[0];
+        Map<String, Integer> fileLine = null;
 
-        while(m.find()) {
-            //System.out.println(m.group());
-            String[] fileAndLine = m.group().replace("(", "").replace(")", "").split(":");
-            if (fileAndLine.length == 2 && fileCache.containsKey(fileAndLine[0])) {
-                file = fileAndLine[0];
-                line = Integer.parseInt(fileAndLine[1]);
+        if(content.isPython()){
+            fileLine = PythonParser(spaceIndented);
+        }else{
+            fileLine = JavaParser(spaceIndented);
+        }
+
+        for(Map.Entry<String, Integer> e: fileLine.entrySet()){
+            if(content.hasFile(e.getKey())){
+                file = e.getKey();
+                line = e.getValue();
                 break;
             }
         }
 
         if(line > -1){
-            String path = fileCache.get(file);
+            String path = content.get(file);
             try (Stream<String> stream = Files.lines(Paths.get(path))) {
                 int skips = line > 3 ? line - 3 : 0; // take before 2 and after 2 = total 5 lines of code.
                 codes = stream.skip(skips).limit(5).toArray(size -> new String[size]);
