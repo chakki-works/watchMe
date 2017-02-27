@@ -1,7 +1,5 @@
 package com.chakki_works.watchme;
 
-import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
 
 import java.io.*;
@@ -13,21 +11,12 @@ import java.net.URLEncoder;
 
 public class SlackPost {
 
-    //private SlackStorage storage = SlackStorage.getInstance();
-
-    private Project project;
-    private Editor editor;
-    private String currentFileName;
-
-    private String selectedText;
-
     private SlackChannel channel;
 
     public SlackPost(SlackChannel channel) {
         //super(channel.getId());
         this.channel = channel;
     }
-
 
     public void pushMessage(String message, String details) throws IOException {
         String input = "payload=" + URLEncoder.encode(channel.getPayloadMessage(details, message), "UTF-8");

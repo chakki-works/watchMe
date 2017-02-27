@@ -12,16 +12,24 @@ public class SlackPostTest {
     private String senderName = "watchMe";
     private String senderIcon = "https://farm3.staticflickr.com/2291/33013444521_8e555dd637_o_d.png";
     private String channelName = "";
-    private SlackChannel channel;
-
-    @Before
-    public void setUp() {
-        this.channel = new SlackChannel(this.token, this.id, this.senderName, this.senderIcon, this.channelName);
-    }
 
     @Test
     public void testPostMessage() {
-        SlackPost post = new SlackPost(this.channel);
+        SlackChannel channel = new SlackChannel(this.token, this.id, this.senderName, this.senderIcon, this.channelName);
+        SlackPost post = new SlackPost(channel);
+        String message = "message string";
+        String detail = "detail string";
+        try {
+            post.pushMessage(message, detail);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testPostMessageShortVer() {
+        SlackChannel channel = new SlackChannel(this.token, this.channelName);
+        SlackPost post = new SlackPost(channel);
         String message = "message string";
         String detail = "detail string";
         try {
