@@ -28,11 +28,12 @@ public class SlackChannel {
 
 
         String payload = "{" +
-                "\"attachments\" : [{" +
-                "\"title\" : \"" + title + "\"," +
-                "\"text\" : \"" + message + "\"," +
-                "\"mrkdwn_in\" : [\"title\", \"text\"]" +
-                "}]," +
+                "\"text\" : \"*" + title + "*\n" + message + "\"," +
+                //"\"attachments\" : [{" +
+                //"\"title\" : \"" + title + "\"," +
+                //"\"text\" : \"" + message + "\"," +
+                //"\"mrkdwn_in\" : [\"title\", \"text\"]" +
+                //"}]," +
                 "\"username\" : \"" + this.getSenderName() + "\"," +
                 "\"icon_url\" : \"" + this.getSenderIcon() + "\"";
         String channel = this.getChannelName();

@@ -41,12 +41,12 @@ public class ConsoleErrorInputFilter implements InputFilter {
         if (outputType.equals(ConsoleViewContentType.SYSTEM_OUTPUT) && text.trim().startsWith("Process finished with exit code")) {
             HandledMessage hm = HandledMessage.create(this.errorStack, this.projectContent);
             if(hm != null) {
-                System.out.println(hm);
+                //System.out.println(hm);
                 for (SlackChannel slackChannel: SlackStorage.getInstance().channelsRegistry) {
                     SlackPost post = new SlackPost(slackChannel);
                     String message = hm.toString();
-                    System.out.println(message);
-                    String detail = slackChannel.getId() + " is in trouble with the following error.";
+                    //System.out.println(message);
+                    String detail = slackChannel.getId() + " is in trouble with the following error!";
                     try {
                         post.pushMessage(message, detail);
                     } catch (IOException e) {

@@ -94,6 +94,7 @@ public class HandledMessage {
     public String toString(){
         String msg = "";
         msg += String.format("%s(%d) \n", this.sourceFile, this.sourceLine);
+        msg += String.format("> ...\n");
         for(int i = 0; i < this.sourceCodes.length; i++){
             if(i == this.sourceCodes.length / 2){
                 msg += String.format("> `%s`\n", this.sourceCodes[i]); // center code
@@ -101,6 +102,7 @@ public class HandledMessage {
                 msg += String.format("> %s\n", this.sourceCodes[i]);
             }
         }
+        msg += String.format("> ...\n");
         msg += String.format("Error \n ```%s```", this.error);
 
         return msg;
