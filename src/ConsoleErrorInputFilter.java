@@ -45,7 +45,8 @@ public class ConsoleErrorInputFilter implements InputFilter {
                 for (SlackChannel slackChannel: SlackStorage.getInstance().channelsRegistry) {
                     SlackPost post = new SlackPost(slackChannel);
                     String message = hm.toString();
-                    String detail = "Hironsan is in trouble with the following error.";
+                    System.out.println(message);
+                    String detail = slackChannel.getId() + " is in trouble with the following error.";
                     try {
                         post.pushMessage(message, detail);
                     } catch (IOException e) {

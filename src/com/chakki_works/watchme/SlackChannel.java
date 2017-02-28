@@ -49,7 +49,7 @@ public class SlackChannel {
     }
 
     public static String getIdDescription() {
-        return "Enter a Description";
+        return "Enter Your Name";
     }
 
     public String getToken() {
