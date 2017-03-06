@@ -46,14 +46,14 @@ public class SlackSettings extends ActionGroup {
                 return;
             }
 
-            String channel = this.showInputDialog(SlackChannel.getChanneNameDescription(), "");
-
             String token = this.showInputDialog(SlackChannel.getTokenDescription(), null);
 
             if (!isValidField(token)) {
                 errorMessage();
                 return;
             }
+
+            String channel = this.showInputDialog(SlackChannel.getChanneNameDescription(), "");
 
             SlackStorage.getInstance().registerChannel(new SlackChannel(token, description, channel));
             Messages.showMessageDialog(this.project, "Settings Saved.", "Information", Messages.getInformationIcon());
@@ -122,14 +122,14 @@ public class SlackSettings extends ActionGroup {
                         return;
                     }
 
-                    String channel = this.showInputDialog(SlackChannel.getChanneNameDescription(), selectedChannel.channelName);
-
                     String token = this.showInputDialog(SlackChannel.getTokenDescription(), selectedChannel.token);
 
                     if (!isValidField(token)) {
                         errorMessage();
                         return;
                     }
+
+                    String channel = this.showInputDialog(SlackChannel.getChanneNameDescription(), selectedChannel.channelName);
 
                     // To update, we just remove and add since the ID can change
                     SlackStorage.getInstance().removeChannelByDescription(channelToUpdate);
