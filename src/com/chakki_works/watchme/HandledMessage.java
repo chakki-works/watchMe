@@ -25,7 +25,7 @@ public class HandledMessage {
     }
 
     private static Map<String, Integer> JavaParser(String message){
-        Pattern fileAndLinePattern = Pattern.compile("\\([A-Z][a-z]+\\.[a-z]+:\\d+\\)");
+        Pattern fileAndLinePattern = Pattern.compile("\\([A-Z][A-Za-z]+\\.[a-z]+:\\d+\\)");
         Matcher m = fileAndLinePattern.matcher(message);
         HashMap<String, Integer> fileLine = new HashMap<String, Integer>();
         while(m.find()) {
