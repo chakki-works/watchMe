@@ -42,7 +42,7 @@ public class ConsoleErrorInputFilter implements InputFilter {
             HandledMessage hm = HandledMessage.create(this.errorStack, this.projectContent);
             if(hm != null) {
                 //System.out.println(hm);
-                for (SlackChannel slackChannel: SlackStorage.getInstance().channelsRegistry) {
+                for (SlackChannel slackChannel: SlackStorage.getInstance().getChannelsRegistry()) {
                     SlackPost post = new SlackPost(slackChannel);
                     String message = hm.toString();
                     //System.out.println(message);

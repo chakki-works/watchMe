@@ -64,7 +64,8 @@ public class HandledMessageTest extends TestCase{
         String senderIcon = ":thunder_cloud_and_rain:";
         String channelName = "";
 
-        SlackChannel channel = new SlackChannel(token, id, senderName, senderIcon, channelName);
+        //SlackChannel channel = new SlackChannel(token, id, senderName, senderIcon, channelName);
+        SlackChannel channel = new SlackChannel(token, id, channelName);
 
         SlackPost post = new SlackPost(channel);
         String message = hm.toString();

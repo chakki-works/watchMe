@@ -24,7 +24,7 @@ public class SlackStorage implements PersistentStateComponent<SlackStorage> {
     public Map<String, String> icons  = new HashMap<String, String>();
     public Map<String, String> channels  = new HashMap<String, String>();
 
-    public List<SlackChannel> channelsRegistry = new ArrayList<SlackChannel>();
+    protected List<SlackChannel> channelsRegistry = new ArrayList<SlackChannel>();
 
     @Override
     public SlackStorage getState() {
@@ -39,8 +39,13 @@ public class SlackStorage implements PersistentStateComponent<SlackStorage> {
         channels = slackStorage.channels;
 
         for (String key: settings.keySet()) {
-            channelsRegistry.add(new SlackChannel(settings.get(key), key, aliases.get(key), icons.get(key), channels.get(key)));
+            //channelsRegistry.add(new SlackChannel(settings.get(key), key, aliases.get(key), icons.get(key), channels.get(key)));
+            channelsRegistry.add(new SlackChannel(settings.get(key), key, channels.get(key)));
         }
+    }
+
+    public List<SlackChannel> getChannelsRegistry() {
+        return channelsRegistry;
     }
 
     public void registerChannel(SlackChannel channel) {

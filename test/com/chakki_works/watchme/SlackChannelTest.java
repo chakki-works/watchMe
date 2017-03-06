@@ -17,7 +17,7 @@ public class SlackChannelTest {
 
     @Before
     public void setUp() {
-        this.channel = new SlackChannel(this.token, this.id, this.senderName, this.senderIcon, this.channelName);
+        this.channel = new SlackChannel(this.token, this.id, this.channelName);
     }
 
     @Test
