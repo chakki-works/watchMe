@@ -1,7 +1,5 @@
 package com.chakki_works.watchme;
 
-import com.intellij.openapi.ui.Messages;
-
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -14,7 +12,6 @@ public class SlackPost {
     private SlackChannel channel;
 
     public SlackPost(SlackChannel channel) {
-        //super(channel.getId());
         this.channel = channel;
     }
 

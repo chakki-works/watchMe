@@ -13,14 +13,6 @@ public class SlackChannel {
         this.id = id;
         this.channelName = channelName;
     }
-    /*
-    public SlackChannel(String token, String id, String senderName, String senderIcon, String channelName) {
-        this.token = token;
-        this.id = id;
-        this.senderName = senderName;
-        this.senderIcon = senderIcon;
-        this.channelName = channelName;
-    }*/
 
     public String getPayloadMessage(String title, String message) {
 
