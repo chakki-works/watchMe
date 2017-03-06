@@ -13,7 +13,7 @@ import java.util.Map;
         name = "SlackStorage",
         storages = {
                 @Storage(
-                        file = StoragePathMacros.APP_CONFIG + "/slack_settings.xml"
+                        file = "$APP_CONFIG$/slack_settings.xml"
                 )
         }
 )
@@ -39,7 +39,6 @@ public class SlackStorage implements PersistentStateComponent<SlackStorage> {
         channels = slackStorage.channels;
 
         for (String key: settings.keySet()) {
-            //channelsRegistry.add(new SlackChannel(settings.get(key), key, aliases.get(key), icons.get(key), channels.get(key)));
             channelsRegistry.add(new SlackChannel(settings.get(key), key, channels.get(key)));
         }
     }
