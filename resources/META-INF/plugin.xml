@@ -1,7 +1,7 @@
 <idea-plugin version="2">
   <id>com.chakki_works.watchme</id>
   <name>watchMe</name>
-  <version>1.1</version>
+  <version>1.2</version>
   <vendor email="chakki.works@gmail.com" url="http://chakki-works.com">chakki</vendor>
 
   <description><![CDATA[
@@ -11,6 +11,7 @@
   <change-notes><![CDATA[
       0.1 - Implement MVP<br/>
       1.1 - BugFix<br/>
+      1.2 - BugFix: accouting for JUnit<br/>
     ]]>
   </change-notes>
 
