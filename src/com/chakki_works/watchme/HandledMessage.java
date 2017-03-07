@@ -25,7 +25,7 @@ public class HandledMessage {
     }
 
     private static Map<String, Integer> JavaParser(String message){
-        Pattern fileAndLinePattern = Pattern.compile("\\([A-Z][A-Za-z]+\\.[a-z]+:\\d+\\)");
+        Pattern fileAndLinePattern = Pattern.compile("\\([A-Z]\\w+\\.[a-z]+:\\d+\\)");
         Matcher m = fileAndLinePattern.matcher(message);
         HashMap<String, Integer> fileLine = new HashMap<String, Integer>();
         while(m.find()) {
@@ -41,7 +41,7 @@ public class HandledMessage {
 
     private static Map<String, Integer> PythonParser(String message){
         //"/Users/smap6/IdeaProjects/watchMePythonTestProject/main.py", line 12, in <module>
-        Pattern fileAndLinePattern = Pattern.compile("/[A-Za-z]+\\.py\", line \\d+");
+        Pattern fileAndLinePattern = Pattern.compile("/[A-Za-z]\\w+\\.py\", line \\d+");
         Matcher m = fileAndLinePattern.matcher(message);
         HashMap<String, Integer> fileLine = new HashMap<String, Integer>();
         while(m.find()) {

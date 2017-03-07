@@ -13,14 +13,14 @@ public class HandledMessageTest extends TestCase{
     public void testMessageParsePython(){
         String sample = "";
         sample += "Traceback (most recent call last):\n" +
-                "  File \"/Users/smap6/IdeaProjects/watchMePythonTestProject/main.py\", line 12, in <module>\n" +
+                "  File \"/Users/smap6/IdeaProjects/watchMePythonTestProject/main_class.py\", line 12, in <module>\n" +
                 "    main()\n" +
                 "  File \"/Users/smap6/IdeaProjects/watchMePythonTestProject/main.py\", line 7, in main\n" +
                 "    with open(path, encoding=\"utf-8\") as f:\n" +
                 "TypeError: 'encoding' is an invalid keyword argument for this function";
 
         HashMap<String, String> fileCache = new HashMap<String, String>();
-        fileCache.put("main.py", System.getProperty("user.dir") + "/README.md");
+        fileCache.put("main_class.py", System.getProperty("user.dir") + "/README.md");
         HandledMessage hm = HandledMessage.create(sample, ProjectFileContent.createFromContent(fileCache, true));
         System.out.println(hm);
 
@@ -29,7 +29,7 @@ public class HandledMessageTest extends TestCase{
     public void testMessageParseJava(){
         String sample = "";
         sample += "Exception in thread \"main\" java.lang.Exception: Test Exception\n" +
-                "\tat com.company.Main.main(Main.java:8)\n" +
+                "\tat com.company.Main.main(MainClass.java:8)\n" +
                 "\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n" +
                 "\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\n" +
                 "\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n" +
@@ -37,7 +37,7 @@ public class HandledMessageTest extends TestCase{
                 "\tat com.intellij.rt.execution.application.AppMain.main(AppMain.java:147)";
 
         HashMap<String, String> fileCache = new HashMap<String, String>();
-        fileCache.put("Main.java", System.getProperty("user.dir") + "/README.md");
+        fileCache.put("MainClass.java", System.getProperty("user.dir") + "/README.md");
         HandledMessage hm = HandledMessage.create(sample, ProjectFileContent.createFromContent(fileCache, false));
         System.out.println(hm);
 
